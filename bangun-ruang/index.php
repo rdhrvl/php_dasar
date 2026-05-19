@@ -73,6 +73,7 @@ include 'function.php';
             echo "<strong>(s^3) = " . round($vol, 2) . "</strong> <br>";
             echo "<strong>(6 x s^3) = " . round($lp, 2) . "</strong>";
             break;
+
         case 'balok':
             $p = $_POST['p'] ?? 0;
             $l = $_POST['l'] ?? 0;
@@ -85,6 +86,7 @@ include 'function.php';
             echo "<strong>(V) = " . round($vol, 2) . "</strong> <br>";
             echo "<strong>(L) = " . round($lp, 2) . "</strong>";
             break;
+
         case 'limas':
             $s = $_POST['s'] ?? 0;
             $t = $_POST['t'] ?? 0;
@@ -93,6 +95,7 @@ include 'function.php';
             echo "Tinggi = $t <br>";
             echo "<strong>(V) = " . round($vol, 2) . "</strong> <br>";
             break;
+
         case 'tabung':
             $r = $_POST['r'] ?? 0;
             $t = $_POST['t'] ?? 0;
@@ -101,6 +104,7 @@ include 'function.php';
             echo "Tinggi = $t <br>";
             echo "<strong>(V) = " . round($vol, 2) . "</strong> <br>";
             break;
+
         case 'bola':
             $r = $_POST['r'] ?? 0;
             $vol = volumeBola($r);
