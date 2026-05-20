@@ -1,16 +1,16 @@
 <?php
 session_start();
 session_regenerate_id();
+include "config/connection.php";
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    $password = sha1($_POST['password']);
 
-    $dataNama = "reval";
-    $dataEmail = "rdhrvl@gmail.com";
-    $dataPassword = "1";
+    $login = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
+    $rowLogin = mysqli_fetch_assoc($login);
 
-    if ($email == $dataEmail && $password == $dataPassword) {
-        $_SESSION['NAMA'] = $dataNama;
+    if ($email == $rowLogin['email'] && $password == $rowLogin['password']) {
+        $_SESSION['NAMA'] = $rowLogin['name'];
         header("location:main.php?page=dashboard");
     } else {
         header("location:index.php");
@@ -21,18 +21,6 @@ if (isset($_POST['login'])) {
 
 
 <!DOCTYPE html>
-
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
 <!-- beautify ignore:start -->
 <html
     lang="en"
