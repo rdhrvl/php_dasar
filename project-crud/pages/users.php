@@ -5,7 +5,7 @@ $selectUser = mysqli_query($conn, "SELECT * FROM users");
 $rows = mysqli_fetch_all($selectUser, MYSQLI_ASSOC);
 
 
-if (isset($_POST['idDelete'])) {
+if (isset($_GET['idDelete'])) {
     $id = $_GET['idDelete'];
     $delete = mysqli_query($conn, "DELETE FROM users WHERE id='$id'");
     header("location:?page=users");
