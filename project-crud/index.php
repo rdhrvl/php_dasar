@@ -2,6 +2,17 @@
 session_start();
 session_regenerate_id();
 include "config/connection.php";
+
+// PHP
+// $, const, define
+// var system/superglobal: $_POST, $_GET, $_SESSION, $_SERVER
+// $_POST : ['login', 'email', 'password']
+// !isset: tidak kosong, kosong
+// !empty: kosong, tidak kosong
+// $_SESSION: Menyimpan data di dalam memory browser
+// $_COOKIES: Menyimpan data di dalam memory browser
+
+
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = sha1($_POST['password']);
