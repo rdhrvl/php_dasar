@@ -39,10 +39,11 @@ if (isset($_POST['save'])) {
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">Status *</label>
+                    <?php $activeStatus = $edit['is_active'] ?? 2 ?>
                     <select class="form-select mb-3" aria-label="Default select" name="status">
-                        <option <?= !$id ? 'selected' : '' ?>>Status Select</option>
-                        <option value="1" <?= $id ? ($edit['is_active'] == 1) ? 'selected' : '' : 'selected' ?>>Active</option>
-                        <option value="0" <?= $id ? ($edit['is_active'] == 0) ? 'selected' : '' : 'selected' ?>>Inactive</option>
+                        <option value="2" <?= $id ? ($activeStatus == NULL) ? 'selected' : '' : 'selected' ?>>Status Select</option>
+                        <option value="1" <?= ($activeStatus == 1) ? 'selected' : ''?>>Active</option>
+                        <option value="0" <?= ($activeStatus == 0) ? 'selected' : ''?>>Inactive</option>
                     </select>
                 </div>
             </div>
