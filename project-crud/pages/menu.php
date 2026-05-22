@@ -1,14 +1,15 @@
 <?php
 
-$query = mysqli_query($conn, "SELECT * FROM roles ORDER BY id DESC");
+$query = mysqli_query($conn, "SELECT parent.name as parent_name, menus.* FROM menus LEFT JOIN menus as parent ON parent.id = menus.parent_id ORDER BY menus.id DESC");
+
 
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $delete = mysqli_query($conn, "DELETE FROM roles WHERE id='$id'");
-    header("location:?page=role");
+    $delete = mysqli_query($conn, "DELETE FROM menus WHERE id='$id'");
+    header("location:?page=menu");
     exit();
 }
 
@@ -16,17 +17,17 @@ if (isset($_GET['delete'])) {
 
 <div class="card">
     <h5 class="card-header">
-        Roles
+        Menu
     </h5>
     <div class="card-body">
         <div class="mb-2" align="right">
-            <a href="?page=role-create" class="btn btn-primary">Create New Role</a>
+            <a href="?page=menu-create" class="btn btn-primary">Create New Menu</a>
         </div>
         <div class="table-responsive">
             <?php
             if (isset($_GET['status']) && $_GET['status'] == 'success') {
-                $status = "Role succsesfully created";
-                $location = "?page=role";
+                $status = "menu succsesfully created";
+                $location = "?page=menu";
                 echo statusSuccess($status, $location);
             }
             ?>
@@ -34,10 +35,12 @@ if (isset($_GET['delete'])) {
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Parent Id</th>
                         <th>Name</th>
-                        <th>Description</th>
+                        <th>url</th>
+                        <th>icon</th>
+                        <th>Order</th>
                         <th>Status</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,12 +51,15 @@ if (isset($_GET['delete'])) {
                         <tr>
 
                             <td><?= $index + 1 ?></td>
+                            <td><?= $r['parent_name'] ?></td>
                             <td><?= $r['name'] ?></td>
-                            <td><?= $r['description'] ?></td>
-                            <td><?= getStatus($status) ?></td>
+                            <td><?= $r['url'] ?></td>
+                            <td><i class="menu-icon tf-icons bx <?= $r['icon'] ?>"></i> <?= $r['icon'] ?></td>
+                            <td><?= $r['sort_order'] ?></td>
+                            <td><?= getStatus($r['is_active']) ?></td>
                             <td>
-                                <a href="?page=role-create&edit=<?= $r['id'] ?>" class="btn btn-success">Edit</a>
-                                <form action="?page=role&delete=<?= $r['id'] ?>" method="post" class="d-inline">
+                                <a href="?page=menu-create&edit=<?= $r['id'] ?>" class="btn btn-success">Edit</a>
+                                <form action="?page=menu&delete=<?= $r['id'] ?>" method="post" class="d-inline">
                                     <button class="btn btn-danger" onclick="return confirm('ARE YOU SURE?')">Delete</button>
                                 </form>
                             </td>
