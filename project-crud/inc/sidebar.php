@@ -1,5 +1,6 @@
 <?php
-$menus = mysqli_query($conn, "SELECT * FROM menus WHERE parent_id IS NULL AND is_active = 1 ORDER BY sort_order DESC");
+$menus = mysqli_query($conn, "SELECT * FROM menus WHERE parent_id IS NULL AND is_active = 1 ORDER BY sort_order ASC");
+
 
 
 // $hasSubMenus = mysqli_num_rows($menus);
@@ -84,7 +85,7 @@ $menus = mysqli_query($conn, "SELECT * FROM menus WHERE parent_id IS NULL AND is
                 <?php
                 if ($hasSubMenus > 0) :
                 ?>
-                    <a href="<?= $menu['url'] ?>" class="menu-link menu-toggle">
+                    <a href="?page=<?= $menu['url'] ?>" class="menu-link menu-toggle">
                         <i class="menu-icon tf-icons bx <?= $menu['icon'] ?>"></i>
                         <div data-i18n="Analytics"><?= $menu['name'] ?></div>
                     </a>
@@ -93,7 +94,7 @@ $menus = mysqli_query($conn, "SELECT * FROM menus WHERE parent_id IS NULL AND is
                         <?php foreach ($subMenus as $subMenu) : ?>
 
                             <li class="menu-item">
-                                <a href="<?= $subMenu['url'] ?>" class="menu-link">
+                                <a href="?page=<?= $subMenu['url'] ?>" class="menu-link">
                                     <i class="menu-icon tf-icons bx<?= $subMenu['icon'] ?>"></i>
                                     <div><?= $subMenu['name'] ?></div>
                                 </a>
@@ -104,7 +105,7 @@ $menus = mysqli_query($conn, "SELECT * FROM menus WHERE parent_id IS NULL AND is
                     </ul>
                     <?php else: {
                     ?>
-                        <a href="<?= $menu['url'] ?>" class="menu-link">
+                        <a href="?page=<?= $menu['url'] ?>" class="menu-link">
                             <i class="menu-icon tf-icons bx <?= $menu['icon'] ?>"></i>
                             <div data-i18n="Analytics"><?= $menu['name'] ?></div>
                         </a>

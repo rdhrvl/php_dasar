@@ -8,7 +8,7 @@ if (isset($_POST['create'])) {
     header('location:?page=role&status=success');
 }
 
-$id = $_GET['edit'] ?? '';
+$id = $id ?? '';
 // $id = isset($_GET['idEdit']) ? $_GET['idEdit'] : '';
 $selectRole = mysqli_query($conn, "SELECT * FROM roles WHERE id='$id'");
 $edit = mysqli_fetch_assoc($selectRole);
@@ -27,7 +27,7 @@ if (isset($_POST['save'])) {
 
 <div class="card">
     <h5 class="card-header">
-        <?= isset($_GET['edit']) ? 'Edit' : 'Create New' ?> Role
+        <?= isset($id) ? 'Edit' : 'Create New' ?> Role
     </h5>
     <div class="card-body">
         <form action="" method="post">
@@ -35,15 +35,15 @@ if (isset($_POST['save'])) {
             <div class="row">
                 <div class="col-6">
                     <label for="" class="form-label">Name *</label>
-                    <input type="text" name="name" class="form-control" value="<?= isset($_GET['edit']) ? $edit['name'] : '' ?>" placeholder="Name" required>
+                    <input type="text" name="name" class="form-control" value="<?= isset($id) ? $edit['name'] : '' ?>" placeholder="Name" required>
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">Status *</label>
                     <?php $activeStatus = $edit['is_active'] ?? 2 ?>
                     <select class="form-select mb-3" aria-label="Default select" name="status">
                         <option value="2" <?= $id ? ($activeStatus == NULL) ? 'selected' : '' : 'selected' ?>>Status Select</option>
-                        <option value="1" <?= ($activeStatus == 1) ? 'selected' : ''?>>Active</option>
-                        <option value="0" <?= ($activeStatus == 0) ? 'selected' : ''?>>Inactive</option>
+                        <option value="1" <?= ($activeStatus == 1) ? 'selected' : '' ?>>Active</option>
+                        <option value="0" <?= ($activeStatus == 0) ? 'selected' : '' ?>>Inactive</option>
                     </select>
                 </div>
             </div>
@@ -56,7 +56,7 @@ if (isset($_POST['save'])) {
 
             </div>
             <div class="text-end mt-4">
-                <button type="submit" class="btn btn-primary" name="<?= isset($_GET['edit']) ? 'save' : 'create' ?>"><?= isset($_GET['edit']) ? 'Save' : 'Create' ?></button>
+                <button type="submit" class="btn btn-primary" name="<?= isset($id) ? 'save' : 'create' ?>"><?= isset($id) ? 'Save' : 'Create' ?></button>
                 <a href="?page=role" class="btn btn-secondary">Back</a>
             </div>
 
