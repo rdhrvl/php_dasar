@@ -15,7 +15,7 @@ if (isset($_POST['create'])) {
     header('location:?page=menu&status=success');
 }
 
-$id = $id ?? '';
+$id = $_GET['edit'] ?? '';
 // $id = isset($_GET['idEdit']) ? $_GET['idEdit'] : '';
 $selectMenu = mysqli_query($conn, "SELECT * FROM menus WHERE id='$id'");
 $edit = mysqli_fetch_assoc($selectMenu);
@@ -37,7 +37,7 @@ if (isset($_POST['save'])) {
 
 <div class="card">
     <h5 class="card-header">
-        <?= isset($id) ? 'Edit' : 'Create New' ?> Menu
+        <?= isset($_GET['edit']) ? 'Edit' : 'Create New' ?> Menu
     </h5>
     <div class="card-body">
         <form action="" method="post">
@@ -45,7 +45,7 @@ if (isset($_POST['save'])) {
             <div class="row">
                 <div class="col-6">
                     <label for="" class="form-label">Name *</label>
-                    <input type="text" name="name" class="form-control" value="<?= isset($id) ? $edit['name'] : '' ?>" placeholder="Name" required>
+                    <input type="text" name="name" class="form-control" value="<?= isset($_GET['edit']) ? $edit['name'] : '' ?>" placeholder="Name" required>
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">Parent *</label>
@@ -66,15 +66,15 @@ if (isset($_POST['save'])) {
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">URL *</label>
-                    <input type="text" name="url" class="form-control" value="<?= isset($id) ? $edit['url'] : '' ?>" placeholder="url">
+                    <input type="text" name="url" class="form-control" value="<?= isset($_GET['edit']) ? $edit['url'] : '' ?>" placeholder="url">
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">Icon *</label>
-                    <input type="text" name="icon" class="form-control" value="<?= isset($id) ? $edit['icon'] : '' ?>" placeholder="Icon" required>
+                    <input type="text" name="icon" class="form-control" value="<?= isset($_GET['edit']) ? $edit['icon'] : '' ?>" placeholder="Icon" required>
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">Sort Order *</label>
-                    <input type="number" name="sort_order" class="form-control" value="<?= isset($id) ? $edit['sort_order'] : '' ?>" placeholder="Order">
+                    <input type="number" name="sort_order" class="form-control" value="<?= isset($_GET['edit']) ? $edit['sort_order'] : '' ?>" placeholder="Order">
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">Status *</label>
@@ -90,7 +90,7 @@ if (isset($_POST['save'])) {
 
             </div>
             <div class="text-end mt-4">
-                <button type="submit" class="btn btn-primary" name="<?= isset($id) ? 'save' : 'create' ?>"><?= isset($id) ? 'Save' : 'Create' ?></button>
+                <button type="submit" class="btn btn-primary" name="<?= isset($_GET['edit']) ? 'save' : 'create' ?>"><?= isset($_GET['edit']) ? 'Save' : 'Create' ?></button>
                 <a href="?page=menu" class="btn btn-secondary">Back</a>
             </div>
 

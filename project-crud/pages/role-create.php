@@ -8,7 +8,7 @@ if (isset($_POST['create'])) {
     header('location:?page=role&status=success');
 }
 
-$id = $id ?? '';
+$id = $_GET['idEdit'] ?? '';
 // $id = isset($_GET['idEdit']) ? $_GET['idEdit'] : '';
 $selectRole = mysqli_query($conn, "SELECT * FROM roles WHERE id='$id'");
 $edit = mysqli_fetch_assoc($selectRole);
