@@ -32,13 +32,13 @@ if (isset($_POST['save'])) {
 
     $cek = mysqli_query($conn, "SELECT * FROM categories WHERE name='$name' AND id!='$id'");
     if (mysqli_num_rows($cek) > 0) {
-        header('location:?page=category-create&status=category-exists');
+        isset($_GET['edit']) ? header('location:?page=category-create&edit=' . urlencode($id) . '&status=category-exists&name=' . urlencode($name)) : header('location:?page=category-create&status=category-exists&name=' . urlencode($name));
         exit();
     }
     $update = mysqli_query($conn, "UPDATE categories SET name='$name', is_active='$status' WHERE id='$id'");
 
     if ($update) {
-        header('location:?page=category&status=edited');
+        header('location:?page=category&status=edited&name=' . urlencode($name));
         exit();
     }
 }
@@ -58,7 +58,7 @@ if (isset($_POST['save'])) {
                     <input type="text" name="name" class="form-control" value="<?= isset($_GET['edit']) ? $edit['name'] : '' ?>" placeholder="Name" required>
                     <?php
                     if (isset($_GET['status']) && $_GET['status'] == 'category-exists') {
-                        $status = "Category name is already exists";
+                        $status = ($_GET['name'] ?? 'Data') . " is already exists";
                         echo inputFailed($status);
                     }
                     ?>

@@ -1,6 +1,6 @@
 <?php
 
-$query = mysqli_query($conn, "SELECT * FROM categories ORDER BY id DESC");
+$query = mysqli_query($conn, "SELECT products.*, categories.name as category_name FROM products LEFT JOIN categories ON products.category_id = categories.id ORDER BY id DESC");
 
 
 
@@ -9,8 +9,8 @@ $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $delete = mysqli_query($conn, "DELETE FROM categories WHERE id='$id'");
-    header("location:?page=category");
+    $delete = mysqli_query($conn, "DELETE FROM products WHERE id='$id'");
+    header("location:?page=product");
     exit();
 }
 
@@ -22,21 +22,21 @@ if (isset($_GET['delete'])) {
     </h5>
     <div class="card-body">
         <div class="mb-2" align="right">
-            <a href="?page=category-create" class="btn btn-primary">Create New category</a>
+            <a href="?page=product-create" class="btn btn-primary">Create New product</a>
         </div>
         <div class="table-responsive">
             <?php
             if (isset($_GET['status']) && $_GET['status'] == 'success') {
-                $status = "Category succsesfully created";
-                $location = "?page=category";
+                $status = "product succsesfully created";
+                $location = "?page=product";
                 echo statusSuccess($status, $location);
             } elseif (isset($_GET['status']) && $_GET['status'] == 'edited') {
-                $status = ($_GET['name'] ?? 'Data') . " successfully Saved";
-                $location = "?page=category";
+                $status = ($_GET['product_name'] ?? 'Data') . " successfully Saved";
+                $location = "?page=product";
                 echo statusSuccess($status, $location);
-            } elseif (isset($_GET['status']) && $_GET['status'] == 'category-exists') {
+            } elseif (isset($_GET['status']) && $_GET['status'] == 'product-exists') {
                 $status = ($_GET['name'] ?? 'Data') . " is already exists";
-                $location = "?page=category";
+                $location = "?page=product";
                 echo statusExist($status, $location);
             }
 
@@ -45,7 +45,12 @@ if (isset($_GET['delete'])) {
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>Category Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Unit</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -53,16 +58,20 @@ if (isset($_GET['delete'])) {
                 <tbody>
                     <?php
                     foreach ($rows as $index => $r) {
-                        $status = $r['is_active'];
                     ?>
                         <tr>
 
                             <td><?= $index + 1 ?></td>
-                            <td><?= $r['name'] ?></td>
+                            <td><img src="assets/uploads/<?= $r['image'] ?>" width="150"></td>
+                            <td><?= $r['product_name'] ?></td>
+                            <td><?= $r['category_name'] ?></td>
+                            <td><?= $r['qty'] ?></td>
+                            <td>Rp. <?= number_format($r['price'], 2, ',', '.') ?></td>
+                            <td><?= $r['unit'] ?></td>
                             <td><?= getStatus($r['is_active']) ?></td>
                             <td>
-                                <a href="?page=category-create&edit=<?= $r['id'] ?>" class="btn btn-success">Edit</a>
-                                <form action="?page=category&delete=<?= $r['id'] ?>" method="post" class="d-inline">
+                                <a href="?page=product-create&edit=<?= $r['id'] ?>" class="btn btn-success">Edit</a>
+                                <form action="?page=product&delete=<?= $r['id'] ?>" method="post" class="d-inline">
                                     <button class="btn btn-danger" onclick="return confirm('ARE YOU SURE?')">Delete</button>
                                 </form>
                             </td>

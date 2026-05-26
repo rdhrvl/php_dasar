@@ -55,7 +55,7 @@ if (isset($_POST['save'])) {
 
                         foreach ($rows as $parent) {
                         ?>
-                            <option value="<?= $parent['id'] ?>" <?= ($edit['parent_id'] == $parent['id']) ? 'selected' : '' ?>>
+                            <option value="<?= $parent['id'] ?>" <?= (($edit['parent_id'] ?? '') == $parent['id']) ? 'selected' : '' ?>>
                                 <?= $parent['name'] ?>
                             </option>
                         <?php
