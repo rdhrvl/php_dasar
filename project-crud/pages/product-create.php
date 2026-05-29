@@ -1,14 +1,16 @@
 <?php
-$query = mysqli_query($conn, "SELECT products.product_name as product_name, products.*, categories.name as category_name, categories.id as category_id FROM products LEFT JOIN categories ON products.category_id = categories.id ORDER BY products.id DESC");
+// $query = mysqli_query($conn, "SELECT products.product_name as product_name, products.*, categories.name as category_name, categories.id as category_id FROM products LEFT JOIN categories ON products.category_id = categories.id ORDER BY products.id DESC");
 
-$rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
+// $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 $categories = mysqli_query($conn, "SELECT * FROM categories");
 $categoryRows = mysqli_fetch_all($categories, MYSQLI_ASSOC);
 
 
 if (isset($_POST['create'])) {
-    $categoryId =  htmlspecialchars($_POST['category_id']);
+    $categoryId = isset($_POST['category_id'])
+        ? (int) $_POST['category_id']
+        : 0;
     $name =  htmlspecialchars($_POST['product_name']);
     $image = time() . '_' . $_FILES['image']['name'];
     $quantity =  htmlspecialchars($_POST['qty']);
@@ -19,7 +21,7 @@ if (isset($_POST['create'])) {
     $tmp_name = $_FILES['image']['tmp_name'];
     move_uploaded_file($tmp_name, "assets/uploads/" . $image);
 
-    $cek = mysqli_query($conn, "SELECT * FROM products WHERE product_name='$name'");
+    $cek = mysqli_query($conn, "SELECT product_name FROM products WHERE product_name='$name'");
     if (mysqli_num_rows($cek) > 0) {
         header('location:?page=product-create&status=product-exists');
         exit();
@@ -38,7 +40,9 @@ $edit = mysqli_fetch_assoc($selectproducts);
 
 
 if (isset($_POST['save'])) {
-    $categoryId =  htmlspecialchars($_POST['category_id']);
+    $categoryId = isset($_POST['category_id'])
+        ? (int) $_POST['category_id']
+        : 0;
     $name =  htmlspecialchars($_POST['product_name']);
     if ($_FILES['image']['name'] != '') {
         $image = time() . '_' . $_FILES['image']['name'];

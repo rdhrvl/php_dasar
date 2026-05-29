@@ -8,10 +8,21 @@ $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 
 if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
+    $id = $_GET['delete'] ?? 0;
+    $cekFoto = mysqli_query($conn, "SELECT image FROM products WHERE id='$id'");
+    $rowFoto = mysqli_fetch_assoc($cekFoto);
+    if ($rowFoto) {
+        $foto = $rowFoto['image'];
+        if (file_exists("assets/uploads/" . $foto) && !empty($foto)) {
+            unlink("assets/uploads/" . $foto);
+        }
+    }
+
     $delete = mysqli_query($conn, "DELETE FROM products WHERE id='$id'");
-    header("location:?page=product");
-    exit();
+    if ($delete) {
+        header("location:?page=product");
+        exit();
+    }
 }
 
 ?>
